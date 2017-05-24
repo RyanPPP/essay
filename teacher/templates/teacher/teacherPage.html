@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>英语作文跑题检测系统</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/teacherPage.css' %}">
+	<script type="text/javascript" src="{% static 'js/teacherPage.js' %}"></script>
+</head>
+<body>
+	<div id="logo"></div>
+	<div id="namebox">{{name}}</div>
+	<div id="exitbox"><a href="{% url 'teacher:exit' %}"></a></div>
+
+	<div class="outerContainer">
+		<div id="hidebg"></div>
+		<div class="top">
+			<div class="top_left">
+				<div class="teacherBox">
+					<div class="teacherPicBox">
+						<!--<a href="##" id="timgA" onclick="showPhoto();"><img src="/static/jpg/{{personico}}"></a>-->
+						<a href="##" id="timgA" onclick="showPhoto();"><img src="/static/jpg/profile.jpg"></a>
+					</div>
+					<!--<div>-->
+						<!--<button class="personalInfor">个人信息管理</button>-->
+					<!--</div>-->
+					<!--<div>-->
+						<!--<button class="studentManage"><a href="{% url 'teacher:std_manage' %}">学生管理</a></button>-->
+					<!--</div>-->
+				</div>
+			</div>
+			<div class="top_right">
+				<h3>作文发布</h3>
+				<form method="post" action="{% url 'teacher:essayRelease' %}">
+					<span>类&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp型：</span>
+					<input type="radio" name="type" class="radio" onclick="showSelection();" checked="checked" value="PL">题库
+					<input type="radio" name="type" onclick="showText();" value="AT">自选<br/>
+					<span>作文标题：</span>
+					<input type="text" class="teacherText" id="showT" name="title1">
+					<select class="teacherSelect" id="showS" name="title2">
+						{% for i in trainedTopics_list %}
+							<option>{{i.trainedTopics}}</option>
+						{% endfor %}
+					</select><br />
+
+					<span>要&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp求：</span>
+					<textarea required class="theRequire" name="description"></textarea><br/>
+					<span>截止时间：</span>
+					<input type="date" class="smallCalendar" name="due_time"><br/>
+					<input type="submit" class="submit" value="确认发布" >
+				</form>
+			</div>
+		</div>
+
+		<div class="bottom">
+			<div class="historyBody">
+				<table id="hisBody">
+					<tr>
+						<th>题目ID</th>
+						<th>完成人数</th>
+						<th>题目</th>
+						<th>截止时间</th>
+						<!--<th>操作</th>-->
+					</tr>
+					{% for i in essayList %}
+					<tr>
+						<!--id自增，前端控制-->
+						<td>1</td>
+						<td>{{ i.finish }}</td>
+						<td>{{ i.title }}</td>
+						<td>{{ i.due_time }}</td>
+						<!--<td><a href="{% url 'teacher:view_detail' %}?id={{i.essayid}}">查看</a></td>-->
+					</tr>
+					{% endfor %}
+					<!--<tr>-->
+						<!--<td>1</td>-->
+						<!--<td>34/40</td>-->
+						<!--<td>Money is nothing</td>-->
+						<!--<td>2017.03.25</td>-->
+						<!--<td><a href="##">操作</a></td>-->
+					<!--</tr>-->
+				</table>
+			</div>
+		</div>
+
+		<p>Copyright 2017 All rights reverved.</p>
+	</div>
+
+	<div class="tmodify" id="tmodify">
+	<div id="tmodify_back"><a href="" onclick="hidePhoto();"></a></div>  <!-- 叉掉修改窗口 -->
+		<table id="tmodifyTable">
+			<tr>
+				<td rowspan="2"><img src="" id="tmodifyPic"><button>上传头像</button></td>
+				<td>昵称：</td>
+				<td><input type="text"></td>
+			</tr>
+			<tr>
+				<td>修改密码&nbsp<a onclick="showtmodifyPsw();" id="pwdBox"><img src="{% static 'img/Calendar/down.png' %}"></a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>旧密码：</td>
+				<td><input type="password"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>新密码：</td>
+				<td><input type="password"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>再次输入密码：</td>
+				<td><input type="password"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td><input type="submit" id="tmodifySub"></td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+</html>
